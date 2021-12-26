@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "covid19-classification"
+version = "1.0.0"
+description = "An AI module for Covid 19 classification"
+authors = ["Kamil Kojs"]
+packages = [{ include = "classification" },]
+
+[tool.poetry.dev-dependencies]
+black = "==20.8b1"
+pylint = "==2.11.0"
+isort = "==5.7.0"
+ipykernel = "==5.5.3"
+
+
+[tool.poetry.dependencies]
+python = "^3.8.7"
+setuptools = "==51.3.3"
+wheel = "==0.36.2"
+tqdm = "==4.56.0"
+scikit-learn = "==0.24.1"
+matplotlib = "==3.3.4"
+mlflow = "==1.21.0"
+torch = ">=1.9.0"
+torchvision = ">=0.10.0"
+pytorch-lightning = "==1.5.7"
+torchmetrics = ">=0.2.0"
+numpy = ">=1.20.3"
+pillow = ">=8.2.0"
+toml = ">=0.10.2"
+
+
+[build-system]
+requires = ["setuptools", "wheel", "poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint.messages_control]
+disable = "R0913, C0114, C0115, C0116, C0330, C0326"
+
+[tool.pylint.format]
+max-line-length = "120"
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint.typecheck]
+generated-members = "numpy.*, torch.*, pytorch_lightning.*"
