@@ -1,8 +1,10 @@
+import bisect
+
 from classification.data.datasets import LabeledDataset
 from classification.data.transforms import default_transform, augmented_transform_mobilenet_v2
 from classification.data.samplers import ImbalancedDatasetSampler
 
-from torch.utils.data import random_split, DataLoader
+from torch.utils.data import random_split, DataLoader, ConcatDataset, Subset
 import pytorch_lightning as pl
 
 class ClassificationDataModule(pl.LightningDataModule):
@@ -102,7 +104,7 @@ class ClassificationDataModule(pl.LightningDataModule):
             self.train_dataset,
             sampler=ImbalancedDatasetSampler(
                 self.train_dataset,
-                callback_get_label=self._extract_label_from_dataset,
+                callback_get_label=self._extract_label_from_dataset_subset,
             )
             if self.train_auto_balancing
             else None,
@@ -110,6 +112,15 @@ class ClassificationDataModule(pl.LightningDataModule):
             num_workers=self.num_workers,
             shuffle=not self.train_auto_balancing,
         )
+
+    
+    @staticmethod
+    def _extract_label_from_dataset_subset(subset: Subset, idx: int):
+        dataset = subset.dataset
+        return ClassificationDataModule._extract_label_from_dataset(
+            dataset, idx
+        )
+
 
     @staticmethod
     def _extract_label_from_dataset(dataset: LabeledDataset, idx: int):
