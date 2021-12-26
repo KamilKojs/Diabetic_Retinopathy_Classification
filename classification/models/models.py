@@ -134,3 +134,29 @@ def train(
         output_dir, trainer_args, early_stopping_args
     )
     trainer.fit(model, datamodule=data)
+
+
+def test(data_args: Dict, model_dir: Path, trainer_args: Dict):
+    model = load_model(model_dir)
+    data = ClassificationDataModule(
+        **data_args,
+        model_type=model.hparams.model_type,
+        augmentation_type=model.hparams.augmentation_type,
+    )
+    trainer = configure_trainer(model_dir, trainer_args)
+    trainer.test(model, datamodule=data)
+
+
+def load_model(model_dir: Path, device: str = None):
+    model_files = list(model_dir.glob('*.pth'))
+    model_files.extend(list(model_dir.glob('*.ckpt')))
+    model_path = next(model_files)
+    if model_path.endswith("pth"):
+        model = torch.load(model_path)
+    else:
+        model = ClassificationModule.load_from_checkpoint(model_path)
+    if device:
+        model = model.to(device)
+    elif torch.cuda.is_available():
+        model = model.to("cuda")
+    return model

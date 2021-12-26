@@ -1,0 +1,12 @@
+seed = 42
+model_dir = 'models/example-model'
+
+[data_args]
+trainval_dataset_dir = '/Users/kamil/Developer/Covid19_Classification/data/trainval'
+test_dataset_dir = '/Users/kamil/Developer/Covid19_Classification/data/test'
+valtest_batch_size = 64
+num_workers = 4
+
+[trainer_args]
+deterministic = true
+gpus = 1
