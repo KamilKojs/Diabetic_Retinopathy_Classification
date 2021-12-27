@@ -1,11 +1,10 @@
-import bisect
-import copy
+from copy import copy
 
 from classification.data.datasets import LabeledDataset
 from classification.data.transforms import default_transform, augmented_transform_mobilenet_v2
 from classification.data.samplers import ImbalancedDatasetSampler
 
-from torch.utils.data import random_split, DataLoader, ConcatDataset, Subset
+from torch.utils.data import random_split, DataLoader, Subset
 import pytorch_lightning as pl
 
 class ClassificationDataModule(pl.LightningDataModule):
@@ -95,14 +94,11 @@ class ClassificationDataModule(pl.LightningDataModule):
         return LabeledDataset(root=dataset_dir, transform=transform)
 
     @staticmethod
-    def _substitute_transforms(subset_of_concat_dataset: Subset, transforms):
-        concat_dataset = copy(subset_of_concat_dataset.dataset)
-        datasets = list(map(copy, concat_dataset.datasets))
-        for dataset in datasets:
-            dataset.transform = transforms()
-
-        concat_dataset.datasets = datasets
-        subset_of_concat_dataset.dataset = concat_dataset
+    def _substitute_transforms(subset_of_dataset: Subset, transforms):
+        '''Replaces the transform for subset's dataset. Copy is needed.'''
+        dataset = copy(subset_of_dataset.dataset)
+        dataset.transform = transforms()
+        subset_of_dataset.dataset = dataset
 
     @staticmethod
     def _split_dataset(dataset: LabeledDataset, split_size: float):
@@ -123,7 +119,6 @@ class ClassificationDataModule(pl.LightningDataModule):
             num_workers=self.num_workers,
             shuffle=not self.train_auto_balancing,
         )
-
     
     @staticmethod
     def _extract_label_from_dataset_subset(subset: Subset, idx: int):
@@ -132,11 +127,9 @@ class ClassificationDataModule(pl.LightningDataModule):
             dataset, idx
         )
 
-
     @staticmethod
     def _extract_label_from_dataset(dataset: LabeledDataset, idx: int):
         return dataset.samples[idx][1]
-
 
     def val_dataloader(self) -> DataLoader:
         return DataLoader(
