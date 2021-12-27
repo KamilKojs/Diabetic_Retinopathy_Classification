@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "covid19-classification"
+name = "Diabetic-Retinopathy-classification"
 version = "1.0.0"
-description = "An AI module for Covid 19 classification"
+description = "An AI module for Diabetic Retinopathy classification"
 authors = ["Kamil Kojs"]
 packages = [{ include = "classification" },]
 
@@ -10,6 +10,7 @@ black = "==20.8b1"
 pylint = "==2.11.0"
 isort = "==5.7.0"
 ipykernel = "==5.5.3"
+ipython_genutils = "==0.1.0"
 
 
 [tool.poetry.dependencies]

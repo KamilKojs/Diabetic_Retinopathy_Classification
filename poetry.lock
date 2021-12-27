@@ -494,6 +494,14 @@ qtconsole = ["qtconsole"]
 test = ["nose (>=0.10.1)", "requests", "testpath", "pygments", "nbformat", "ipykernel", "numpy (>=1.17)"]
 
 [[package]]
+name = "ipython-genutils"
+version = "0.1.0"
+description = "Vestigial utilities from IPython"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "isort"
 version = "5.7.0"
 description = "A Python utility / library to sort Python imports."
@@ -1463,7 +1471,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8.7"
-content-hash = "3f5b9b4862fdd0c459ea90c2fdc100bbcabc3c09ace7bc903fc0359dc479a2f9"
+content-hash = "5ff96db452b4423c1aea74c6b9b5215cb1490f9cedd6e212f47bb05e2b9edfc5"
 
 [metadata.files]
 absl-py = [
@@ -1892,6 +1900,11 @@ ipykernel = [
 ipython = [
     {file = "ipython-7.30.1-py3-none-any.whl", hash = "sha256:fc60ef843e0863dd4e24ab2bb5698f071031332801ecf8d1aeb4fb622056545c"},
     {file = "ipython-7.30.1.tar.gz", hash = "sha256:cb6aef731bf708a7727ab6cde8df87f0281b1427d41e65d62d4b68934fa54e97"},
+]
+ipython-genutils = [
+    {file = "ipython_genutils-0.1.0-py2.py3-none-any.whl", hash = "sha256:6218e9abd612fb5acfb175ea7c7b026006de4df9691d9a73c9b390cfa1a41c2b"},
+    {file = "ipython_genutils-0.1.0.tar.gz", hash = "sha256:3a0624a251a26463c9dfa0ffa635ec51c4265380980d9a50d65611c3c2bd82a6"},
+    {file = "ipython_genutils-0.1.0.zip", hash = "sha256:0c43fa84e93ad0e4dbecaffc6656ac1caf1a48359b2bb0a5da3af84164e3f49b"},
 ]
 isort = [
     {file = "isort-5.7.0-py3-none-any.whl", hash = "sha256:fff4f0c04e1825522ce6949973e83110a6e907750cd92d128b0d14aaaadbffdc"},
