@@ -1,4 +1,5 @@
 import bisect
+import copy
 
 from classification.data.datasets import LabeledDataset
 from classification.data.transforms import default_transform, augmented_transform_mobilenet_v2
@@ -81,7 +82,7 @@ class ClassificationDataModule(pl.LightningDataModule):
                 dataset, self.trainval_split_size
             )
             if self.train_augmentation:
-                self.train_dataset.transform = self.transform
+                self._substitute_transforms(self.train_dataset, self.transform)
 
         if stage == "test" or stage is None:
             self.test_dataset = self._load_dataset(
@@ -92,6 +93,16 @@ class ClassificationDataModule(pl.LightningDataModule):
     @staticmethod
     def _load_dataset(dataset_dir: str, transform):
         return LabeledDataset(root=dataset_dir, transform=transform)
+
+    @staticmethod
+    def _substitute_transforms(subset_of_concat_dataset: Subset, transforms):
+        concat_dataset = copy(subset_of_concat_dataset.dataset)
+        datasets = list(map(copy, concat_dataset.datasets))
+        for dataset in datasets:
+            dataset.transform = transforms()
+
+        concat_dataset.datasets = datasets
+        subset_of_concat_dataset.dataset = concat_dataset
 
     @staticmethod
     def _split_dataset(dataset: LabeledDataset, split_size: float):
