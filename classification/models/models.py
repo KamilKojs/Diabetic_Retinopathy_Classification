@@ -16,7 +16,7 @@ from torch import nn
 from torchvision.models import mobilenet_v2
 
 from classification.data.datamodules import ClassificationDataModule
-from classification.models.metrics import accuracy
+from classification.models.metrics import accuracy, cohen_kappa_score
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +36,7 @@ class ClassificationModule(pl.LightningModule):
             self.model = mobilenet_v2(pretrained=True)
             self.model.classifier = nn.Sequential(
                 nn.Dropout(p=0.2, inplace=False),
-                nn.Linear(in_features=1280, out_features=2, bias=True),
+                nn.Linear(in_features=1280, out_features=5, bias=True),
             )
         else:
             raise Exception(f"Model type '{model_type}' is not supported")
@@ -45,7 +45,7 @@ class ClassificationModule(pl.LightningModule):
         return self.model(x)
 
     def training_step(self, batch, batch_idx):
-        x_images, _, y_true = batch
+        x_images, y_true = batch
         y_pred = self(x_images)
         loss = F.cross_entropy(y_pred, y_true)
         self.log("train_loss", loss, logger=True)
@@ -64,24 +64,30 @@ class ClassificationModule(pl.LightningModule):
         self._valtest_epoch_end("test", outputs)
 
     def _valtest_step(self, stage, batch, batch_idx):
-        x_images, _, y_true = batch
+        x_images, y_true = batch
         y_pred = self(x_images)
         loss = F.cross_entropy(y_pred, y_true)
         self.log(f"{stage}_loss", loss, prog_bar=True)
+
+        y_pred_softmax = torch.log_softmax(y_pred, dim = 1)
+        _, y_pred_tags = torch.max(y_pred_softmax, dim = 1)
         return {
             "y_true": y_true,
-            "y_pred": torch.sigmoid(y_pred[:, 1]),
+            "y_pred": y_pred_tags,
             f"{stage}_loss": loss,
         }
 
     def _valtest_epoch_end(self, stage, outputs):
         y_true = torch.cat([o["y_true"] for o in outputs])
         y_pred = torch.cat([o["y_pred"] for o in outputs])
-        mid_point_threshold = 0.5
 
         self.log(
-            f"{stage}_overall_accuracy",
-            accuracy(y_pred, y_true, mid_point_threshold),
+            f"{stage}_accuracy",
+            accuracy(y_pred, y_true),
+        )
+        self.log(
+            f"{stage}_cohen_kappa_score",
+            cohen_kappa_score(y_pred, y_true),
         )
 
         loss = torch.stack([o[f"{stage}_loss"] for o in outputs])

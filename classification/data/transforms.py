@@ -4,8 +4,8 @@ from torchvision import transforms
 def default_transform():
     return transforms.Compose(
         [
-            transforms.Resize(299),
-            transforms.CenterCrop(256),
+            transforms.Resize(224),
+            transforms.CenterCrop(224),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]
@@ -15,8 +15,8 @@ def default_transform():
 def augmented_transform_mobilenet_v2():
     return transforms.Compose(
         [
-            transforms.Resize(299),
-            transforms.RandomCrop(256),
+            transforms.Resize(224),
+            transforms.RandomCrop(224),
             transforms.RandomApply(
                 [
                     transforms.ColorJitter(

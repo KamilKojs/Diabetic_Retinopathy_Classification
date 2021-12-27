@@ -1,4 +1,5 @@
 from typing import Tuple
+from sklearn import metrics
 
 import torch
 
@@ -47,8 +48,17 @@ def get_confusion_matrix_groups_sizes(
     )
 
 
-def accuracy(
-    y_pred: torch.Tensor, y_true: torch.Tensor, threshold: float = 0.5
-) -> float:
-    fp, fn, tp, tn = get_confusion_matrix_groups_sizes(y_true, y_pred, threshold)
-    return (tp + tn) / (fp + fn + tp + tn)
+def accuracy(y_pred: torch.Tensor, y_true: torch.Tensor) -> float:
+    #fp, fn, tp, tn = get_confusion_matrix_groups_sizes(y_true, y_pred, threshold)
+    correct_pred = (y_pred == y_true).float()
+    acc = correct_pred.sum() / len(correct_pred)
+    #return (tp + tn) / (fp + fn + tp + tn)
+    return acc
+
+
+def cohen_kappa_score(y_pred: torch.Tensor, y_true: torch.Tensor) -> float:
+    return metrics.cohen_kappa_score(
+        y_pred.detach().cpu().numpy(),
+        y_true.detach().cpu().numpy(),
+        weights = "quadratic"
+    )
