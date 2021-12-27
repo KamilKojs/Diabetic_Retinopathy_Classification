@@ -156,8 +156,8 @@ def test(data_args: Dict, model_dir: Path, trainer_args: Dict):
 def load_model(model_dir: Path, device: str = None):
     model_files = list(model_dir.glob('*.pth'))
     model_files.extend(list(model_dir.glob('*.ckpt')))
-    model_path = next(model_files)
-    if model_path.endswith("pth"):
+    model_path = model_files[0]
+    if str(model_path).endswith("pth"):
         model = torch.load(model_path)
     else:
         model = ClassificationModule.load_from_checkpoint(model_path)
