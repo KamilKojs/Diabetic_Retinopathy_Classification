@@ -47,22 +47,22 @@ class ClassificationModule(pl.LightningModule):
                 nn.Linear(in_features=4096, out_features=1024, bias=True),
                 nn.ReLU(inplace=True),
                 nn.Dropout(p=0.2, inplace=False),
-                nn.Linear(in_features=1024, out_features=5, bias=True),
+                nn.Linear(in_features=1024, out_features=1, bias=True),
             )
         elif self.hparams.model_type == "efficientnet_b7":
             self.model = efficientnet_b7(pretrained=True)
             self.model.classifier = nn.Sequential(
                 nn.Dropout(p=0.5, inplace=True),
-                nn.Linear(in_features=2560, out_features=5, bias=True),
+                nn.Linear(in_features=2560, out_features=1, bias=True),
             )
         elif self.hparams.model_type == "densenet201":
             self.model = densenet201(pretrained=True)
             self.model.classifier = nn.Sequential(
-                nn.Linear(in_features=1920, out_features=5, bias=True),
+                nn.Linear(in_features=1920, out_features=1, bias=True),
             )
         elif self.hparams.model_type == "resnet152":
             self.model = resnet152(pretrained=True)
-            self.model.fc = nn.Linear(in_features=2048, out_features=5, bias=True)
+            self.model.fc = nn.Linear(in_features=2048, out_features=1, bias=True)
         else:
             raise Exception(f"Model type '{model_type}' is not supported")
 
@@ -107,13 +107,8 @@ class ClassificationModule(pl.LightningModule):
     def _valtest_epoch_end(self, stage, outputs):
         y_true = torch.cat([o["y_true"] for o in outputs])
         y_pred = torch.cat([o["y_pred"] for o in outputs])
-
-        y_pred[y_pred < 0.5] = 0
-        y_pred[(y_pred >= 0.5) & (y_pred < 1.5)] = 1
-        y_pred[(y_pred >= 1.5) & (y_pred < 2.5)] = 2
-        y_pred[(y_pred >= 2.5) & (y_pred < 3.5)] = 3
-        y_pred[(y_pred >= 3.5)] = 4
-        #y_pred = y_pred.long().squeeze(1)
+        format_preds(y_pred)
+        y_pred = y_pred.long().squeeze(1)
 
         self.log(
             f"{stage}_accuracy",
@@ -200,3 +195,11 @@ def load_model(model_dir: Path, device: str = None):
     elif torch.cuda.is_available():
         model = model.to("cuda")
     return model
+
+
+def format_preds(y_pred: torch.Tensor):
+    y_pred[y_pred < 0.5] = 0
+    y_pred[(y_pred >= 0.5) & (y_pred < 1.5)] = 1
+    y_pred[(y_pred >= 1.5) & (y_pred < 2.5)] = 2
+    y_pred[(y_pred >= 2.5) & (y_pred < 3.5)] = 3
+    y_pred[(y_pred >= 3.5)] = 4

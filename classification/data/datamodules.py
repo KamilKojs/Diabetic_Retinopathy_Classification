@@ -1,7 +1,7 @@
 from copy import copy
 
 from classification.data.datasets import LabeledDataset
-from classification.data.transforms import default_transform, augmented_transform_mobilenet_v2
+from classification.data.transforms import default_transform, augmented_transform
 from classification.data.samplers import ImbalancedDatasetSampler
 
 from torch.utils.data import random_split, DataLoader, Subset
@@ -56,10 +56,11 @@ class ClassificationDataModule(pl.LightningDataModule):
         self.test_dataset_dir = test_dataset_dir
         self.num_workers = num_workers
 
-        if model_type == "mobilenet_v2" or model_type == "vgg16":
+        if model_type == "mobilenet_v2" or model_type == "vgg16" or model_type == "efficientnet_b7" or model_type == "densenet201" or model_type == "resnet152":
             if augmentation_type == "default":
-                self.transform = augmented_transform_mobilenet_v2
+                self.transform = augmented_transform
             else:
+                # In case of other augmented transforms in the future for different architectures
                 raise Exception(
                     f"Data augmentation '{augmentation_type}' is not supported"
                 )

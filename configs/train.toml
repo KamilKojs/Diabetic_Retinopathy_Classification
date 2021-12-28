@@ -7,7 +7,7 @@ output_dir = "models"
 trainval_dataset_dir = './data/trainval'
 trainval_split_size = 0.9
 train_auto_balancing = false
-train_augmentation = false
+train_augmentation = true
 train_batch_size = 64
 valtest_batch_size = 64
 num_workers = 4
@@ -17,7 +17,7 @@ learning_rate = 2e-5
 
 [trainer_args]
 deterministic = true
-gpus = 1
+#gpus = 1
 
 [early_stopping_args]
 monitor = 'val_loss'

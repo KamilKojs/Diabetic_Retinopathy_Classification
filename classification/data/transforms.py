@@ -1,4 +1,3 @@
-import torch
 from torchvision import transforms
 
 def default_transform():
@@ -12,7 +11,7 @@ def default_transform():
     )
 
 
-def augmented_transform_mobilenet_v2():
+def augmented_transform():
     return transforms.Compose(
         [
             transforms.Resize(224),
@@ -23,6 +22,9 @@ def augmented_transform_mobilenet_v2():
                         brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1
                     ),
                     transforms.RandomRotation(degrees=15),
+                    transforms.RandomHorizontalFlip(p=0.5),
+                    transforms.RandomVerticalFlip(p=0.5),
+                    transforms.RandomPerspective(distortion_scale=0.1, p=0.5)
                 ]
             ),
             transforms.ToTensor(),
