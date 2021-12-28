@@ -56,7 +56,7 @@ class ClassificationDataModule(pl.LightningDataModule):
         self.test_dataset_dir = test_dataset_dir
         self.num_workers = num_workers
 
-        if model_type == "mobilenet_v2":
+        if model_type == "mobilenet_v2" or model_type == "vgg16":
             if augmentation_type == "default":
                 self.transform = augmented_transform_mobilenet_v2
             else:
