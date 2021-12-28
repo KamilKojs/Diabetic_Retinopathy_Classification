@@ -31,8 +31,8 @@ This is a classification deep learning project. The goal is to correctly classif
     * accuracy: 0.802
     * cohen kappa score: 0.632
 * MSE loss:
-    * accuracy: 
-    * cohen kappa score: 
+    * accuracy: 0.707
+    * cohen kappa score: 0.668
 
 5 models described in the third notebook:
 * strenghtened augmentations:
@@ -50,3 +50,26 @@ This is a classification deep learning project. The goal is to correctly classif
 * Resnet152:
     * accuracy: 
     * cohen kappa score: 
+
+7 models described in the fourth notebook:
+* 384x384:
+    * accuracy: 
+    * cohen kappa score: 
+* 512x512:
+    * accuracy: 
+    * cohen kappa score: 
+* 640x640:
+    * accuracy: 
+    * cohen kappa score: 
+* 768x768:
+    * accuracy: 
+    * cohen kappa score: 
+* 896x896:
+    * accuracy: 
+    * cohen kappa score:
+* 1024x1024:
+    * accuracy: 
+    * cohen kappa score:
+* Learning rate scheduler (from 2e-5 to 2e-7 after a couple of epochs):
+    * accuracy: 
+    * cohen kappa score:

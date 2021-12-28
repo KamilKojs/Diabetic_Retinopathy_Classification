@@ -123,6 +123,7 @@ class ClassificationDataModule(pl.LightningDataModule):
     
     @staticmethod
     def _extract_label_from_dataset_subset(subset: Subset, idx: int):
+        '''Used for imbalanced sampler module'''
         dataset = subset.dataset
         return ClassificationDataModule._extract_label_from_dataset(
             dataset, idx
