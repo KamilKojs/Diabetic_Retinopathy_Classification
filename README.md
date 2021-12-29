@@ -36,31 +36,28 @@ This is a classification deep learning project. The goal is to correctly classif
 
 5 models described in the third notebook:
 * strenghtened augmentations:
-    * accuracy: 
-    * cohen kappa score: 
+    * accuracy: 0.693
+    * cohen kappa score: 0.672
 * VGG16:
-    * accuracy: 
-    * cohen kappa score: 
+    * accuracy: 0.771
+    * cohen kappa score: 0.716
 * Efficientnet b7:
-    * accuracy: 
-    * cohen kappa score: 
+    * accuracy: 0.768
+    * cohen kappa score: 0.724
 * Densenet201:
-    * accuracy: 
-    * cohen kappa score: 
+    * accuracy: 0.727
+    * cohen kappa score: 0.678
 * Resnet152:
-    * accuracy: 
-    * cohen kappa score: 
+    * accuracy: 0.735
+    * cohen kappa score: 0.703
 
-7 models described in the fourth notebook:
+6 models described in the fourth notebook:
 * 384x384:
-    * accuracy: 
-    * cohen kappa score: 
+    * accuracy: 0.774
+    * cohen kappa score: 0.755
 * 512x512:
-    * accuracy: 
-    * cohen kappa score: 
-* 640x640:
-    * accuracy: 
-    * cohen kappa score: 
+    * accuracy: 0.809
+    * cohen kappa score: 0.801
 * 768x768:
     * accuracy: 
     * cohen kappa score: 

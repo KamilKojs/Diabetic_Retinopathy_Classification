@@ -13,7 +13,7 @@ from pytorch_lightning.callbacks import EarlyStopping
 from pytorch_lightning.loggers import TensorBoardLogger
 
 from torch import nn
-from torchvision.models import mobilenet_v2, vgg16, efficientnet_b7, densenet201, resnet152
+from torchvision.models import mobilenet_v2, vgg16, efficientnet_b5, efficientnet_b7, densenet201, resnet152
 
 from classification.data.datamodules import ClassificationDataModule
 from classification.models.metrics import accuracy, cohen_kappa_score
@@ -49,6 +49,12 @@ class ClassificationModule(pl.LightningModule):
                 nn.Dropout(p=0.2, inplace=False),
                 nn.Linear(in_features=1024, out_features=1, bias=True),
             )
+        elif self.hparams.model_type == "efficientnet_b5":
+            self.model = efficientnet_b5(pretrained=True)
+            self.model.classifier = nn.Sequential(
+                nn.Dropout(p=0.4, inplace=True),
+                nn.Linear(in_features=2048, out_features=1, bias=True),
+            )
         elif self.hparams.model_type == "efficientnet_b7":
             self.model = efficientnet_b7(pretrained=True)
             self.model.classifier = nn.Sequential(
@@ -72,7 +78,6 @@ class ClassificationModule(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         x_images, y_true = batch
         y_pred = self(x_images)
-        #loss = F.cross_entropy(y_pred, y_true)
         loss = F.mse_loss(y_pred, y_true.unsqueeze(1).float())
         self.log("train_loss", loss, logger=True)
         return loss
@@ -92,12 +97,9 @@ class ClassificationModule(pl.LightningModule):
     def _valtest_step(self, stage, batch, batch_idx):
         x_images, y_true = batch
         y_pred = self(x_images)
-        #loss = F.cross_entropy(y_pred, y_true)
         loss = F.mse_loss(y_pred, y_true.unsqueeze(1).float())
         self.log(f"{stage}_loss", loss, prog_bar=True)
 
-        #y_pred_softmax = torch.log_softmax(y_pred, dim = 1)
-        #_, y_pred_tags = torch.max(y_pred_softmax, dim = 1)
         return {
             "y_true": y_true,
             "y_pred": y_pred,
@@ -203,3 +205,4 @@ def format_preds(y_pred: torch.Tensor):
     y_pred[(y_pred >= 1.5) & (y_pred < 2.5)] = 2
     y_pred[(y_pred >= 2.5) & (y_pred < 3.5)] = 3
     y_pred[(y_pred >= 3.5)] = 4
+    

@@ -3,8 +3,8 @@ from torchvision import transforms
 def default_transform():
     return transforms.Compose(
         [
-            transforms.Resize(224),
-            transforms.CenterCrop(224),
+            transforms.Resize(768),
+            transforms.CenterCrop(768),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]
@@ -14,8 +14,8 @@ def default_transform():
 def augmented_transform():
     return transforms.Compose(
         [
-            transforms.Resize(224),
-            transforms.RandomCrop(224),
+            transforms.Resize(768),
+            transforms.RandomCrop(768),
             transforms.RandomApply(
                 [
                     transforms.ColorJitter(
