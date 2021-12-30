@@ -84,3 +84,5 @@ Since I have a very limited access to GPU resources I can't implement other idea
 * Use Nvidia Dali to improve model learning times and reduce computation costs
 
 Usually visual analysis of problematic data produces interesting ideas for development so that would be my first step in improving this solution.
+
+One last thing worth mentioning, if I were to implement a model for a production use I would make a binary classificator where "no diabetic retinopathy" is ground truth 0 and everything else is 1. The solution in current form was implemented to make it the same as in the requirements for the competition on Kaggle to be able to compare myself to other contestants. However from business perspective it doesn't matter whether a patient has mild or moderate DR. Both disease states have to be treated by doctor looking at the cases individually. So a system responsibility would be to detect the ill people ale report them to the doctor so that they could be treated with respect to their disease severity state. Binary classificator is also easier to teach so I'm 100% sure that the production model would be much better than the one presented in the current solution.
