@@ -51,7 +51,7 @@ This is a classification deep learning project. The goal is to correctly classif
     * accuracy: 0.735
     * cohen kappa score: 0.703
 
-6 models described in the fourth notebook:
+4 models described in the fourth notebook:
 * 384x384:
     * accuracy: 0.774
     * cohen kappa score: 0.755
@@ -59,14 +59,8 @@ This is a classification deep learning project. The goal is to correctly classif
     * accuracy: 0.809
     * cohen kappa score: 0.801
 * 768x768:
-    * accuracy: 
-    * cohen kappa score: 
-* 896x896:
-    * accuracy: 
-    * cohen kappa score:
-* 1024x1024:
-    * accuracy: 
-    * cohen kappa score:
+    * accuracy: 0.798
+    * cohen kappa score: 0.724
 * Learning rate scheduler (from 2e-5 to 2e-7 after a couple of epochs):
     * accuracy: 
     * cohen kappa score:
