@@ -67,9 +67,9 @@ Final result 0.801 Quadratic Weighted Kappa.
 Since I have a very limited access to GPU resources I can't implement other ideas but here are some of them to improve the solution even more:
 * Implement lr scheduler to lower the lr from 2e-5 to 2e-7 after a couple of epochs
 * Use different augmentation parameters and techniques
-* Implement Spatial Pyramid Pooling and use different image resolutions in one batch during training
-* Implement Monte Carlo Dropout during validation (for example 10 preds for 1 image and then average the result)
-* Implement some kind of uncertainty estimation to return only certain predictions and return the uncertain ones to manual reviewing for doctors
+* Implement Spatial Pyramid Pooling and use different image resolutions during training
+* Implement Monte Carlo Dropout during validation/test (for example 10 preds for 1 image and then average the result)
+* Implement some kind of uncertainty estimation to return only certain predictions and return the uncertain ones for manual reviewing for doctors
 * Try contrast boosting during preprocessing (CLAHE algorithm for histogram equalization?)
 * Log false positives and false negatives and analyze them to see what kind of pictures are problematic for the model
 * Calculate separate accuracy metric for each label class to see which class is the most problematic -> work on solution to solve it
