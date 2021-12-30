@@ -66,6 +66,7 @@ Final result 0.801 Quadratic Weighted Kappa.
 
 Since I have a very limited access to GPU resources I can't implement other ideas but here are some of them to improve the solution even more:
 * Implement lr scheduler to lower the lr from 2e-5 to 2e-7 after a couple of epochs
+* Use different augmentation parameters and techniques
 * Implement Spatial Pyramid Pooling and use different image resolutions in one batch during training
 * Implement Monte Carlo Dropout during validation (for example 10 preds for 1 image and then average the result)
 * Implement some kind of uncertainty estimation to return only certain predictions and return the uncertain ones to manual reviewing for doctors
@@ -80,5 +81,6 @@ Since I have a very limited access to GPU resources I can't implement other idea
 * Try to extend model input to more than 3 channels by using additional information that wasn't in the original dataset? Maybe doctors have another techniques of detecting this disease other than RGB images?
 * Use ensemble of models
 * Implement other techniques apart from Deep Learning and use them in addition to DL in decision trees
+* Use Nvidia Dali to improve model learning times and reduce computation costs
 
 Usually visual analysis of problematic data produces interesting ideas for development so that would be my first step in improving this solution.
