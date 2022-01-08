@@ -1,3 +1,5 @@
+'''Script used for model training'''
+
 from classification.config import read
 from classification.models.models import train
 from typing import Dict
@@ -13,6 +15,7 @@ def main(
     trainer_args: Dict,
     early_stopping_args: Dict,
 ):
+    """Runs training with passed argument dictionary"""
     seed_everything(seed)
     train(
         data_args,
